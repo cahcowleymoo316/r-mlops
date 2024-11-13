@@ -206,6 +206,12 @@ v
 # to the model board and vetiver_pin_read() to access it. In this case, we must specify the username 
 # of the author of the pin, which in this case is cahc
 
-model_board <- pins::board_local(versioned = T)
+model_board <- pins::board_folder(path = 'pins-r', versioned = T)
 model_board
 model_board %>% vetiver::vetiver_pin_write(v)
+pins::write_board_manifest(model_board)
+
+# 
+
+
+
