@@ -211,7 +211,37 @@ model_board
 model_board %>% vetiver::vetiver_pin_write(v)
 pins::write_board_manifest(model_board)
 
-# 
+
+# use board_url
+model_board %>% vetiver::vetiver_write_plumber("penguins_model", rsconnect = F)
+# Create a Dockerfile
+model_board %>% vetiver::vetiver_prepare_docker("penguins_model")
+# NOTE: You need to add the following to the Dockerfile so that it can see your pins.
+# COPY pins-r /opt/ml/pins-r
+
+# Go to terminal and build docker container:
+# docker build -t penguins_model . (
+# NOTE: this takes a while when you build it the first time (this example took 512.7s = 8.5min)
+# docker run --rm -p 8000:8000 penguins_model 
+
+# Create your model endpoint & test with a new piece of data ----------------------------------------------
+# NOTE: If you want to get an example JSON payload to test with, go to http://127.0.0.1:8080/__docs__/ in your browser and navigate to the predict endpoint.
+# Create the endpoint
+endpoint <- vetiver::vetiver_endpoint("http://127.0.0.1:8000/predict")
+endpoint
+new_penguin <- tibble::tibble(species = "Adelie"
+                              , bill_length_mm = 40
+                              , bill_depth_mm = 20
+                              , flipper_length_mm = 2
+                              , body_mass_g = 3000)
+predict(endpoint, new_penguin)
+# This should return "female".
+
+# And now you have a model that was trained, pinned, saved and deployed to a Docker container on your local machine.
+
+# TODO: Do the same but in Azure.
+
+
 
 
 

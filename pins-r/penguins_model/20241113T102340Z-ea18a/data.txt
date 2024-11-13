@@ -1,0 +1,17 @@
+file: penguins_model.rds
+file_size: 40820
+pin_hash: ea18ac8713d5f91c
+type: rds
+title: 'penguins_model: a pinned list'
+description: A glm classification modeling workflow
+tags: ~
+urls: ~
+created: 20241113T102340Z
+api_version: 1
+user:
+  required_pkgs:
+  - parsnip
+  - recipes
+  - stats
+  - workflows
+  renv_lock: ~
